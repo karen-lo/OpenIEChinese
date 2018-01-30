@@ -2,7 +2,7 @@
 package corenlp;
 
 import edu.stanford.nlp.ie.util.RelationTriple;
-import edu.stanford.nlp.io.IOUtils;
+import edu.stanford.nlp.simple.*;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.naturalli.NaturalLogicAnnotations;
 import edu.stanford.nlp.naturalli.OpenIE;
@@ -21,7 +21,7 @@ import java.util.Properties;
 public class CoreNLPOpenIE {
     public static void main(String[] args) throws Exception {
         // Create the Stanford CoreNLP pipeline
-        Properties props = PropertiesUtils.asProperties("annotators", "tokenize, ssplit, pos, lemma, depparse, natlog, openie");
+        /*Properties props = PropertiesUtils.asProperties("annotators", "tokenize, ssplit, pos, lemma, depparse, natlog, openie");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
         // Annotate an example document.
@@ -29,7 +29,8 @@ public class CoreNLPOpenIE {
         if (args.length > 0) {
             text = IOUtils.slurpFile(args[0]);
         } else {
-            text = "Obama was born in Hawaii. He is our president.";
+            text = "昨天我在家里睡觉。";
+            //text = "Obama was born in Hawaii. He is our president.";
         }
         Annotation doc = new Annotation(text);
         pipeline.annotate(doc);
@@ -59,6 +60,21 @@ public class CoreNLPOpenIE {
                 System.out.println(clause.parseTree.toString(SemanticGraph.OutputFormat.LIST));
             }
             System.out.println();
+        }*/
+
+        // Create a CoreNLP document
+        Document doc = new Document("昨天我在家里睡觉");
+
+        // Iterate over the sentences in the document
+        for (Sentence sent : doc.sentences()) {
+            // Iterate over the triples in the sentence
+            for (RelationTriple triple : sent.openieTriples()) {
+                // Print the triple
+                System.out.println(triple.confidence + "\t" +
+                        triple.subjectLemmaGloss() + "\t" +
+                        triple.relationLemmaGloss() + "\t" +
+                        triple.objectLemmaGloss());
+            }
         }
     }
 }
