@@ -1,5 +1,5 @@
 // demo code from: https://github.com/OpenIE-HelperCodes/OpenIEDemo1/blob/master/src/runner/RunMe.java#L12
-package runner;
+package knowitall;
 
 import java.util.List;
 
